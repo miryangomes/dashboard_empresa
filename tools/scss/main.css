@@ -1,0 +1,264 @@
+@charset "UTF-8";
+header {
+  position: top;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 46, 253, 0.6784313725);
+}
+header .logo {
+  font-size: 25px;
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+header li {
+  list-style-type: none;
+}
+
+/*Variáveis*/
+:root {
+  --button-primary-color: #1e03b9;
+  --font-primary-color: #fff;
+  --hover-button-color: #2d2bcc;
+}
+
+.button {
+  width: 30%;
+  height: 35px;
+  background-color: var(--button-primary-color);
+  color: var(--font-primary-color);
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 700;
+  margin: 3px;
+  border: 1px solid white;
+}
+
+button:hover, tr:hover {
+  background-color: var(--hover-button-color);
+  color: rgb(255, 255, 255);
+}
+
+/*Variáveis*/
+:root {
+  --tb-bg-color: #002fffad;
+  --tb-bg2-color: #002fffad;
+  --tb-sel-color: #002fffad;
+  --font-primary-color: #fff;
+}
+
+#wrap {
+  width: 50%;
+  background: linear-gradient(100deg, var(--tb-bg-color), var(--tb-bg2-color));
+}
+
+#wrap input {
+  border-radius: 10px;
+  width: 60%;
+  height: 30px;
+  margin: 2px;
+}
+
+#botoes, #saida, #wrap {
+  text-align: center;
+  border-radius: 20px;
+  padding: 1%;
+}
+
+.info .title {
+  margin-top: 1rem;
+}
+.info #saida {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.info #saida input {
+  height: 20px;
+  width: 20px;
+}
+.info #saida table {
+  border-radius: 5px;
+  background: linear-gradient(100deg, var(--tb-bg-color), var(--tb-sel-color));
+  color: var(--font-primary-color);
+}
+.info #saida td {
+  border: 1px solid white;
+}
+.info .register {
+  position: relative;
+  left: 67%;
+}
+.info .register:hover {
+  text-decoration: underline;
+  color: black;
+}
+.info .register a {
+  color: black;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/*Variáveis*/
+:root {
+  --main-bg-color: rgb(245, 235, 235);
+  --font-primary-color: #fff;
+  --font-link-color: #818ffd;
+  --font-secondary-color: #000000;
+}
+
+/*Formatação Principal*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+a {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--font-link-color);
+  display: flexbox;
+}
+
+body {
+  background-color: var(--main-bg-color);
+  color: var(--font-primary-color);
+}
+
+main {
+  display: grid;
+  place-items: center;
+}
+
+h1 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  color: var(--font-secondary-color);
+}
+
+h2 {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 35px;
+  letter-spacing: 0px;
+  word-spacing: 0px;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(#000000, #000000, #000000);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+
+#saida h2 {
+  background: linear-gradient(45deg, #120077, #000000, #2f005c);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+
+a {
+  font-size: 14px;
+  color: rgb(255, 153, 0);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navigation {
+  position: fixed;
+  width: 60px;
+  height: 100%;
+  background-color: #333;
+  transition: 0.5s;
+  overflow: hidden;
+}
+.navigation.active, .navigation:hover {
+  width: 300px;
+}
+.navigation ul {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.navigation li {
+  position: relative;
+  width: 100%;
+  list-style: none;
+}
+.navigation li:hover {
+  background-color: rgb(70, 68, 68);
+}
+.navigation a {
+  position: relative;
+  display: block;
+  width: 100%;
+  display: flex;
+  text-decoration: none;
+  color: #fff;
+  font-size: 20px;
+}
+.navigation .icon {
+  position: relative;
+  display: block;
+  min-width: 60px;
+  height: 60px;
+  line-height: 65px;
+  text-align: center;
+}
+.navigation .icon .bx {
+  font-size: 24px;
+}
+.navigation .title {
+  position: relative;
+  display: block;
+  padding: 0 10px;
+  height: 60px;
+  line-height: 60px;
+  text-align: start;
+  white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .navigation {
+    left: -60px;
+  }
+  .navigation.active {
+    left: 0;
+    width: 100%;
+  }
+}
+
+.toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 48.6px;
+  background: #333;
+  cursor: pointer;
+}
+.toggle.active {
+  background-color: rgb(70, 68, 68);
+}
+.toggle::before {
+  content: "\f0c9";
+  position: absolute;
+  font-family: fontAwesome;
+  width: 100%;
+  height: 100%;
+  line-height: 50px;
+  text-align: center;
+  font-size: 24px;
+  color: #fff;
+}
+.toggle.active::before {
+  content: "\f00d";
+}
+
+h2 .welcome {
+  padding: 5rem;
+}/*# sourceMappingURL=main.css.map */

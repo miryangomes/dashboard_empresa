@@ -1,0 +1,51 @@
+/*Variáveis*/
+:root
+{
+    --tb-bg-color: #002fffad;
+    --tb-bg2-color: #002fffad;
+    --tb-sel-color: #002fffad;
+    --font-primary-color: #fff;
+}
+
+#wrap
+{
+    width: 30%;
+    background: linear-gradient(100deg, var(--tb-bg-color), var(--tb-bg2-color));
+}
+
+#wrap input{
+    border-radius: 10px;
+    width: 60%;
+    height: 30px;
+    margin: 2px;
+}
+
+#botoes, #saida, #wrap{
+    margin-top: 3px;
+    text-align: center;
+    border-radius: 20px;
+    padding: 1%;
+    margin-right: 2%;
+    margin-left: 2%;
+    
+}
+
+#saida
+{
+    width:80%;
+}
+
+#saida input{
+    height: 20px;
+    width: 20px;
+}
+
+table{
+    border-radius: 5px;
+    background: linear-gradient(100deg, var(--tb-bg-color), var(--tb-sel-color));
+    color: var(--font-primary-color);
+}
+
+td{
+    border: 1px solid white;
+}

@@ -1,0 +1,79 @@
+/*Variáveis*/
+:root
+{
+    --navbar-primary-color: #002fffad;
+    --navbar-primary-fontcolor: #ffffff;
+}
+
+/*Navbar*/
+header
+{
+    position: top;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--navbar-primary-color);   
+}
+
+.logo
+{
+    font-size: 25px;
+    color: var(--navbar-primary-fontcolor);
+    text-decoration: none;
+    font-weight: 700;
+    pointer-events: none;
+}
+
+.navbar a 
+{
+    display: inline;
+    font-size: 20px;
+    color: var(--navbar-primary-fontcolor);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 35px;
+}
+
+.navbar a.active,
+.navbar a:hover
+{
+    background: linear-gradient(45deg, #75ccff, #a4a9f8);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
+.menu {
+    list-style-type: none;
+    padding: 0;
+    
+}
+
+.menu > li {
+    margin-right: 20px;
+    position: relative;
+    display: inline-block;
+    
+}
+
+.menu > li:hover .submenu {
+    display: block;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #000000b9;
+    padding: 10px;
+    padding-right: 20px;
+    border-top: 2px solid #0091bd;
+    border-radius: 5px;
+    list-style-type: square;
+    transition-delay: 5s;
+}
+

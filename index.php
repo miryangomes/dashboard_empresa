@@ -20,7 +20,7 @@
     {
         if(isset($_POST['acao']) && isset($_POST['login']) && isset($_POST['senha']))
         {
-            $login = 'miryan';
+            $login = 'miryan@info';
             $senha = '123';
 
             $loginForm = $_POST['login'];

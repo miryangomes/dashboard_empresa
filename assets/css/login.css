@@ -4,19 +4,20 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #333;
+    background-image: url(/assets/images/login.jpg);
     background-size: cover;
     background-position: center;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    backdrop-filter: blur(10px);
 }
 
 
 .wrapper{
     width: 420px;
-    background: transparent;
+    background: #3333334c;
     border: 2px solid rgba(255, 255, 255, .2);
     backdrop-filter: blur(20px);
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);

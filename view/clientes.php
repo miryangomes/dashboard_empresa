@@ -1,5 +1,16 @@
 <?php 
+
+    // verificar login
+        session_start();
+        if (!isset($_SESSION['login'])) 
+        {
+            header('Location: /index.php'); // Redireciona para a página de login se não estiver logado
+            exit();
+        }
+    // 
+    
   include_once('Cadastros/conexão.php'); 
+
   $sql = "SELECT clientes.*, cidade.* 
   FROM clientes 
   LEFT JOIN cidade ON clientes.cidade_idCid = cidade.idCid
@@ -21,114 +32,114 @@
        $resultDelete = $conexao->query($sqlDelete);
        echo '<script>window.location.href = window.location.href;</script>';
       }
-      header('Location: CadastrarCliente.php');
+      header('Location: clientes.php');
     }
+
+    $pagina = 1;
+
+    if (isset($_GET['pagina'])) {
+        $pagina = filter_input(INPUT_GET, "pagina", FILTER_VALIDATE_INT);
+    }
+
+    if (!$pagina) {
+        $pagina = 1;
+    }
+
+    $limite = 5;
+    $inicio = ($pagina * $limite) - $limite;
+
+    if(!empty($_GET['search']))
+    {
+        $searchTerm = $_GET['search'];
+        $sql = "SELECT clientes.*, cidade.* 
+                FROM clientes 
+                LEFT JOIN cidade ON clientes.cidade_idCid = cidade.idCid
+                WHERE clientes.nome LIKE '%$searchTerm%'
+                OR cidade.descricao LIKE '%$searchTerm%'
+                OR cidade.uf LIKE '%$searchTerm%'
+                ORDER BY clientes.idCli DESC";
+
+        $result = $conexao->query($sql);
+    }
+    else
+    {
+        // Se não houver pesquisa, execute a consulta original
+        $sql = "SELECT clientes.*, cidade.* 
+                FROM clientes 
+                LEFT JOIN cidade ON clientes.cidade_idCid = cidade.idCid
+                ORDER BY clientes.idCli DESC";
+
+        $result = $conexao->query($sql);
+    }
+
+    // Obtenha o total de registros
+    $totalRegistrosQuery = $conexao->query("SELECT COUNT(*) as count FROM ($sql) as subquery");
+    $totalRegistros = $totalRegistrosQuery->fetch_assoc()["count"];
+
+    $totalPaginas = ceil($totalRegistros / $limite);
+
+    // Consulta paginada
+    $sqlPaginado = "$sql LIMIT $inicio, $limite";
+    $result = $conexao->query($sqlPaginado);
+
+    if (!$result) 
+    {
+        echo "Erro na consulta: " . $conexao->error;
+    }
+
+    
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Sistema de Estoque</title>
-
-    <!-- Icone da página -->
-    <link rel="icon favicon" href="Assets/img/index_favicon.png" type="image/x-icon">
-
-    <!-- Link CSS -->
-    <link rel="stylesheet" href="/tools/scss/main.css">
-    
-    <!-- Link boxicons -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
 </head>
 <body>
-
-    <!-- Cabeçalho dá página ----------------------------------------------------->
-    <header>
-        <a href="/index.php" class="logo">Informática.</a>
-    </header>
-
-    <div class="navigation">
-        <ul>
-            <li>
-                <a href="/view/clientes.php">
-                    <span class="icon"><i class='bx bxs-user-detail'></i></span>
-                    <span class="title">Clientes</span>
-                </a>
-            </li>
-            <li>
-                <a href="/view/produtos.php">
-                    <span class="icon"><i class='bx bxs-component'></i></span>
-                    <span class="title">Produtos</span>
-                </a>
-            </li>
-            <li>
-                <a href="/view/fornecedores.php">
-                    <span class="icon"><i class='bx bx-collection' ></i></span>
-                    <span class="title">Fornecedores</span>
-                </a>
-            </li>
-            <li>
-                <a href="/view/venda.php">
-                    <span class="icon"><i class='bx bx-store'></i></span>
-                    <span class="title">Vendas</span>
-                </a>
-            </li>
-           <li>
-                <a href="/index.php?logout">
-                    <span class="icon"><i class='bx bx-log-out'></i></span>
-                    <span class="title">Sair</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="toggle" onclick="toggleMenu();"></div>
-    <script type="text/javascript">
-        function toggleMenu() {
-            // Seleciona o elemento HTML com a classe 'navigation'
-            let navigation = document.querySelector('.navigation');
-            
-            // Seleciona o elemento HTML com a classe 'toggle'
-            let toggle = document.querySelector('.toggle');
-            
-            // Alterna a classe 'active' no elemento 'navigation'
-            navigation.classList.toggle('active');
-            
-            // Alterna a classe 'active' no elemento 'toggle'
-            toggle.classList.toggle('active');
-        }
-    </script>
+    <!-- Head HTML & Navegação + cabeçalho -->
+    <?php
+        include ('src/php/_header-nav.php');
+    ?>
 
 <div class="info">
-    <h2 class="title">Clientes Cadastrados:</h2>
+    <h2 class="title-c">Clientes Cadastrados:</h2>
 
-    <div class="register">
-        <a href="Cadastros/CadastrarCliente.php"><i class='bx bx-user-plus'></i> Novo Cliente</a>
+
+    
+    <div class="tools">
+    <form class="d-flex" onsubmit="return false;">
+        <input id="pesquisar" class="form-control me-sm-2" type="search" placeholder="Pesquisar">
+        <button id="btnPesquisar" class="btn btn-secondary my-2 my-sm-0" type="button" onclick="searchData()"><i class='bx bx-search-alt'></i></button>
+    </form>
+       <div class="badges-a">
+           <a href="Cadastros/CadastrarCliente.php"> <span class="badge bg-success"><i class='bx bx-user-plus'></i> Novo Cliente</span></a>
+           <a href="cidades.php"> <span class="badge bg-primary"><i class='bx bx-buildings' ></i> Cidades</span></a>
+       </div>
     </div>
 
     <div id="saida">
             <br>
-            <table border="0" width="50%" height="5%">
-                <tr>
-    
-                    <td width="30px">
-                        id
-                    </td>
-                    <td>
-                        Nome
-                    </td>
-                    <td>
-                        Cidade.
-                    </td>
-                    <td>
-                        UF.
-                    </td>
-                    <td width="100px">
-                        EXCLUIR
-                    </td>
-                </tr>
+            <table border="0" width="50%" height="5%" class="table table-hover">
+
+                <thead>
+                    <tr class="table-dark">
+                        <th scope="col" width="30px">
+                            id
+                        </th>
+                        <td>
+                            Nome
+                        </td>
+                        <td>
+                            Cidade
+                        </td>
+                        <td>
+                            Sigla/UF
+                        </td>
+                        <td width="150px">
+                            Ações
+                        </td>
+                    </tr>
+                </thead>
+
                 <tbody>
                     <?php
                         while($client_data = mysqli_fetch_assoc($result))
@@ -138,14 +149,52 @@
                             echo "<td>".$client_data['nome']."</td>";
                             echo "<td>".$client_data['descricao']."</td>";
                             echo "<td>".$client_data['uf']."</td>";
-                            echo "<td> <a href='CadastrarCliente.php?id=$client_data[idCli]'><button class=button ><i class='bx bx-x-circle'></i></button></td></a>";
+                            echo "<td> 
+                            <a href='Cadastros/EditarCliente.php?id=$client_data[idCli]'><button class='btn btn-secondary btn-sm'><i class='bx bxs-edit'></i></button></a>
+                            <button class='btn btn-primary btn-sm'><i class='bx bx-info-circle' ></i></button>
+                            <a href='clientes.php?id=$client_data[idCli]'><button class='btn btn-danger btn-sm' ><i class='bx bxs-trash-alt' ></i></button></a>
+                            </td>";
                         }
                     ?>
                 </tbody>
     
             </table>
         </div>
+        <!-- Exibe os botões de navegação -->
+        <?php
+                echo '<ul class="pages pagination pagination-sm">';
+                echo '<li class="page-item ' . ($pagina == 1 ? 'disabled' : '') . '">';
+                echo '<a class="page-link" href="?pagina=' . max($pagina - 1, 1) . '">&laquo;</a>';
+                echo '</li>';
+
+                for ($i = 1; $i <= $totalPaginas; $i++) {
+                    echo '<li class="page-item ' . ($pagina == $i ? 'active' : '') . '">';
+                    echo '<a class="page-link" href="?pagina=' . $i . '">' . $i . '</a>';
+                    echo '</li>';
+                }
+
+                echo '<li class="page-item ' . ($pagina == $totalPaginas ? 'disabled' : '') . '">';
+                echo '<a class="page-link" href="?pagina=' . min($pagina + 1, $totalPaginas) . '">&raquo;</a>';
+                echo '</li>';
+                echo '</ul>';
+            ?>
     </div>
-    
+
+
+    <script>
+        var search = document.getElementById('pesquisar');
+
+        search.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                searchData();
+            }
+        });
+
+        function searchData() {
+            var searchTerm = search.value;
+            window.location.href = 'clientes.php?search=' + searchTerm;
+        }
+    </script>
+
 </body>
 </html>

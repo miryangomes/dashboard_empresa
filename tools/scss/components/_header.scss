@@ -1,6 +1,5 @@
 header
 {
-    position: top;
     top: 0;
     left: 0;
     width: 100%;
@@ -13,6 +12,8 @@ header
     .logo
     {
         font-size: 25px;
+        position: relative;
+        right: 10%;
         color: $header-primary-fontcolor;
         text-decoration: none;
         font-weight: 700;

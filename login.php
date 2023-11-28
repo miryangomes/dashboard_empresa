@@ -7,7 +7,7 @@
     <title>Tela de login em HTML e CSS</title>
 
     <!-- links -->
-    <link rel="stylesheet" href="tools/scss/login.css">
+    <link rel="stylesheet" href="assets/css/login.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 </head>

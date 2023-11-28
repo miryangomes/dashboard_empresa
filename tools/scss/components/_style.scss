@@ -3,8 +3,7 @@
 {
     --main-bg-color: rgb(245, 235, 235);
     --font-primary-color: #fff;
-    --font-link-color: #818ffd;
-    --font-secondary-color: #000000;
+    
 }
   
 /*Formatação Principal*/
@@ -13,20 +12,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
-}
-
-a
-{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--font-link-color);
-    display: flexbox;
-}
-
-body
-{
-    background-color: var(--main-bg-color);
-    color: var(--font-primary-color); 
 }
 
 main
@@ -37,14 +22,14 @@ main
 
 h1
 {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
-    color: var(--font-secondary-color);
+    color: $font-secondary-color;
 }
 
-h2
+
+.title-c
 {
-    font-family: 'Ubuntu', sans-serif;
+    margin-top: 1rem;
     font-size: 35px;
     letter-spacing: 0px;
     word-spacing: 0px;
@@ -55,19 +40,4 @@ h2
     -webkit-background-clip: text;
 }
 
-#saida h2
-{
-    background: linear-gradient(45deg, #120077, #000000, #2f005c); 
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-}
-
-a
-{
-    font-size: 14px;
-    color: rgb(255, 153, 0);
-    text-decoration: none;
-    font-weight: 600;
-
-}
 

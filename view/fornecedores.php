@@ -141,9 +141,8 @@
                             echo "<td>".$client_data['idFor']."</td>";
                             echo "<td>".$client_data['descricao']."</td>";
                             echo "<td> 
-                            <a href='Cadastros/EditarFornecedor.php?id=$client_data[idCli]'><button class='btn btn-secondary btn-sm'><i class='bx bxs-edit'></i></button></a>
-                            <button class='btn btn-primary btn-sm'><i class='bx bx-info-circle' ></i></button>
-                            <a href='fornecedores.php?id=$client_data[idCli]'><button class='btn btn-danger btn-sm' ><i class='bx bxs-trash-alt' ></i></button></a>
+                            <a href='Cadastros/EditarFornecedor.php?id=$client_data[idFor]'><button class='btn btn-secondary btn-sm'><i class='bx bxs-edit'></i></button></a>
+                            <a href='fornecedores.php?id=$client_data[idFor]'><button class='btn btn-danger btn-sm' ><i class='bx bxs-trash-alt' ></i></button></a>
                             </td>";
                         }
                     ?>

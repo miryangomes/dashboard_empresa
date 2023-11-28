@@ -88,10 +88,10 @@ if (isset($_POST['submit'])) {
                 $stmtRelacao = $conexao->prepare($insert_relacao_sql);
                 $stmtRelacao->bind_param("ii", $idProduto, $idFor);
 
-                    // if (!$stmtRelacao->execute()) {
-                    // } else {
-                    //     echo "Erro ao inserir a relação Produto-Fornecedor: " . $stmtRelacao->error . "<br>";
-                    // }
+                if (!$stmtRelacao->execute()) {
+                    throw new Exception("Erro ao inserir a relação Produto-Fornecedor: " . $stmtRelacao->error);
+                }
+        
                 
 
                 // Confirmar a transação

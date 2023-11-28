@@ -48,7 +48,7 @@
         $sqlInserirVenda = "INSERT INTO vendas (cliente_idCli, produto_idProd, quantidade, dataVenda) VALUES (?, ?, ?, ?)";
         $stmtInserirVenda = $conexao->prepare($sqlInserirVenda);
         
-        // Definir as variáveis $dataVenda e $dataVencimento
+        // Definir as variáveis $dataVenda
         $dataVenda = $dataVenda;
     
         $stmtInserirVenda->bind_param("iiss", $idCliente, $idProduto, $quantidade, $dataVenda);

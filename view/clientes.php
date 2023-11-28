@@ -151,7 +151,6 @@
                             echo "<td>".$client_data['uf']."</td>";
                             echo "<td> 
                             <a href='Cadastros/EditarCliente.php?id=$client_data[idCli]'><button class='btn btn-secondary btn-sm'><i class='bx bxs-edit'></i></button></a>
-                            <button class='btn btn-primary btn-sm'><i class='bx bx-info-circle' ></i></button>
                             <a href='clientes.php?id=$client_data[idCli]'><button class='btn btn-danger btn-sm' ><i class='bx bxs-trash-alt' ></i></button></a>
                             </td>";
                         }

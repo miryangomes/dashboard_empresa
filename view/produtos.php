@@ -9,89 +9,77 @@
         }
     // 
     
-  include_once('Cadastros/conexão.php'); 
+    include_once('Cadastros/conexão.php');
 
-  $idProd = $client_data['idProd'];
-
-$sql = "SELECT produtos.*, GROUP_CONCAT(fornecedores.descricao) AS fornecedores
-        FROM produtos
-        LEFT JOIN produtofornecedor ON produtos.idProd = produtofornecedor.Produtos_idProd
-        LEFT JOIN fornecedores ON produtofornecedor.Fornecedores_idFor = fornecedores.idFor
-        WHERE produtos.idProd = ?
-        GROUP BY produtos.idProd";
-
-$stmt = $conexao->prepare($sql);
-$stmt->bind_param("i", $idProd);
-$stmt->execute();
-$result = $stmt->get_result();
-
-
-
-  if(!empty($_GET['id']))
-  {
-   $id =$_GET['id'];
-
-   $sqlSelect = "SELECT * FROM produtos WHERE idProd=$id";
-
-   $result = $conexao->query($sqlSelect);
-
-      if($result->num_rows > 0)
-      {
-       $sqlDelete = "DELETE FROM produtos WHERE idProd=$id";
-       $resultDelete = $conexao->query($sqlDelete);
-       echo '<script>window.location.href = window.location.href;</script>';
-      }
-      header('Location: produtos.php');
+    if (!empty($_GET['id'])) {
+        $id = $_GET['id'];
+    
+        // Excluir a referência na tabela filha (produtofornecedor)
+        $sqlDeleteRelacionamento = "DELETE FROM produtofornecedor WHERE Produtos_idProd = $id";
+        $resultDeleteRelacionamento = $conexao->query($sqlDeleteRelacionamento);
+    
+        if (!$resultDeleteRelacionamento) {
+            echo "Erro ao excluir o relacionamento: " . $conexao->error;
+        }
+    
+        // Excluir a linha na tabela pai (produtos)
+        $sqlDeleteProduto = "DELETE FROM produtos WHERE idProd = $id";
+        $resultDeleteProduto = $conexao->query($sqlDeleteProduto);
+    
+        if (!$resultDeleteProduto) {
+            echo "Erro ao excluir o produto: " . $conexao->error;
+        } else {
+            echo '<script>window.location.href = window.location.href;</script>';
+        }
+        // Redirecionar para a página de produtos após a exclusão
+        header('Location: produtos.php');
     }
-
+    
     $pagina = 1;
-
+    
     if (isset($_GET['pagina'])) {
         $pagina = filter_input(INPUT_GET, "pagina", FILTER_VALIDATE_INT);
     }
-
+    
     if (!$pagina) {
         $pagina = 1;
     }
-
+    
     $limite = 5;
     $inicio = ($pagina * $limite) - $limite;
-
-    if(!empty($_GET['search']))
-    {
+    
+    if (!empty($_GET['search'])) {
         $searchTerm = $_GET['search'];
-        $sql = "SELECT produtos.* 
+        $sql = "SELECT produtos.idProd, produtos.descricao AS nomeProduto, produtos.quantidade, produtos.valor, GROUP_CONCAT(fornecedores.descricao) AS fornecedores
                 FROM produtos
-                WHERE idProd LIKE '%$searchTerm%'
-                OR descricao LIKE '%$searchTerm%'
-                OR quantidade LIKE '%$searchTerm%'
-                OR valor LIKE '%$searchTerm%'
-                ORDER BY idProd DESC";
-
-        $result = $conexao->query($sql);
-    }
-    else
-    {
+                INNER JOIN produtofornecedor ON produtos.idProd = produtofornecedor.Produtos_idProd
+                INNER JOIN fornecedores ON produtofornecedor.Fornecedores_idFor = fornecedores.idFor
+                WHERE produtos.idProd LIKE '%$searchTerm%'
+                OR produtos.descricao LIKE '%$searchTerm%'
+                OR produtos.quantidade LIKE '%$searchTerm%'
+                GROUP BY produtos.idProd
+                ORDER BY produtos.idProd DESC";
+    } else {
         // Se não houver pesquisa, execute a consulta original
-        $sql = "SELECT produtos.* 
-                FROM produtos 
-                ORDER BY idProd DESC";
-
-        $result = $conexao->query($sql);
+        $sql = "SELECT produtos.idProd, produtos.descricao AS nomeProduto, produtos.quantidade, produtos.valor, GROUP_CONCAT(fornecedores.descricao) AS fornecedores
+                FROM produtos
+                INNER JOIN produtofornecedor ON produtos.idProd = produtofornecedor.Produtos_idProd
+                INNER JOIN fornecedores ON produtofornecedor.Fornecedores_idFor = fornecedores.idFor
+                GROUP BY produtos.idProd
+                ORDER BY produtos.idProd DESC";
     }
-
+    
     // Obtenha o total de registros
     $totalRegistrosQuery = $conexao->query("SELECT COUNT(*) as count FROM ($sql) as subquery");
     $totalRegistros = $totalRegistrosQuery->fetch_assoc()["count"];
-
+    
     $totalPaginas = ceil($totalRegistros / $limite);
-
+    
     // Consulta paginada
     $sqlPaginado = "$sql LIMIT $inicio, $limite";
     $result = $conexao->query($sqlPaginado);
-
-    if (!$result) 
-    {
+    
+    if (!$result) {
         echo "Erro na consulta: " . $conexao->error;
     }
 
@@ -134,7 +122,7 @@ $result = $stmt->get_result();
                             id
                         </th>
                         <td>
-                            Nome
+                            Produto
                         </td>
                         <td>
                             Quantidade
@@ -156,13 +144,12 @@ $result = $stmt->get_result();
                         while ($product_info = $result->fetch_assoc()) {
                             echo "<tr>";
                             echo "<td>" . $product_info['idProd'] . "</td>";
-                            echo "<td>" . $product_info['descricao'] . "</td>";
+                            echo "<td>" . $product_info['nomeProduto'] . "</td>";
                             echo "<td>" . $product_info['quantidade'] . " unit.</td>";
                             echo "<td>R$ " . $product_info['valor'] . "</td>";
                             echo "<td>" . $product_info['fornecedores'] . "</td>";
                             echo "<td> 
                                     <a href='Cadastros/EditarProduto.php?id={$product_info['idProd']}'><button class='btn btn-secondary btn-sm'><i class='bx bxs-edit'></i></button></a>
-                                    <button class='btn btn-primary btn-sm'><i class='bx bx-info-circle'></i></button>
                                     <a href='produtos.php?id={$product_info['idProd']}'><button class='btn btn-danger btn-sm'><i class='bx bxs-trash-alt'></i></button></a>
                                   </td>";
                             echo "</tr>";

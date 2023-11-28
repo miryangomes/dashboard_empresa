@@ -11,10 +11,6 @@
     
   include_once('Cadastros/conexão.php'); 
 
-  $nomeCliente = $_POST['nome_cliente'];
-  $nomeProduto = $_POST['nome_produto'];
-  $quantidade = $_POST['quantidade'];
-  $dataVenda = $_POST['dtvenda'];
   
   // Consulta para obter o ID do cliente
   $sqlCliente = "SELECT idCli FROM clientes WHERE nome = ?";
@@ -96,6 +92,21 @@ if (!$resultPaginado) {
 echo "Erro na consulta paginada: " . $conexao->error;
 }
 
+if (!empty($_GET['id'])) {
+    $id = $_GET['id'];
+
+    // Excluir a venda
+    $sqlDeleteVenda = "DELETE FROM vendas WHERE idVenda = $id";
+    $resultDeleteVenda = $conexao->query($sqlDeleteVenda);
+
+    if (!$resultDeleteVenda) {
+        echo "Erro ao excluir a venda: " . $conexao->error;
+    } else {
+        echo '<script>window.location.href = window.location.href;</script>';
+    }
+    // Redirecionar para a página de produtos após a exclusão
+    header('Location: venda.php');
+}
     
 ?>
 
@@ -175,7 +186,7 @@ echo "Erro na consulta paginada: " . $conexao->error;
                                 echo "<td>R$ {$totalVenda}</td>";
                                 echo "<td> 
                                     <button class='btn btn-primary btn-sm'><i class='bx bx-info-circle' ></i></button>
-                                    <a href='clientes.php?id=$client_data[idVenda]'><button class='btn btn-danger btn-sm' ><i class='bx bxs-trash-alt' ></i></button></a>
+                                    <a href='venda.php?id=$row[idVenda]'><button class='btn btn-danger btn-sm' ><i class='bx bx-x-circle'></i></button></a>
                                     </td>";
                                 echo "</tr>";
                     }

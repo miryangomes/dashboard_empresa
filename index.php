@@ -8,7 +8,7 @@
     <title>Login</title>
 
     <!-- Icone da página -->
-    <link rel="icon favicon" href="Assets/img/index_favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/images/index_favicon.png" type="image/x-icon">
 
 </head>
 <body>

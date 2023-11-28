@@ -93,6 +93,7 @@
 <!DOCTYPE html>
 <head>
     <title>Sistema de Estoque</title>
+    <link rel="shortcut icon" href="/assets/images/index_favicon.png" type="image/x-icon">
 </head>
 <body>
     <!-- Head HTML & Navegação + cabeçalho -->

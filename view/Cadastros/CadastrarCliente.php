@@ -70,10 +70,11 @@
             </script>";
             }
 
-            // Coloca os dados do Cliente na tabela de Clientes
+            // Coloca os dados do Cliente na tabela de Clientes (inserção no banco de dados)
             $insert_cliente_sql = "INSERT INTO clientes(nome, cidade_idCid) VALUES ('$nome', $idCidade)";
             if ($conexao->query($insert_cliente_sql) === TRUE)
             {
+                //alert de sucesso
                 echo "<script>
                 Swal.fire({
                     icon: 'success',
@@ -85,6 +86,7 @@
             }
             else 
             {
+                //alert de erro
                 echo "
                 <div class='alert alert-dismissible alert-danger'>
                 <strong>Erro ao cadastrar o Cliente:  </strong> . $conexao->error .
